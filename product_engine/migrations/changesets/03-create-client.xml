@@ -1,0 +1,50 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+    <changeSet author="e.ryabov" id="create-client-table">
+        <createTable tableName="clients" remarks="Храним данные о клиентах в clients">
+
+            <column name="id" type="SERIAL" remarks="уникальный идентификатор клиента">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="client_pkey"/>
+            </column>
+
+            <column name="surname" type="VARCHAR(50)" remarks="Фамилия клиента">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="name" type="VARCHAR(50)" remarks="Имя клиента">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="patronymic" type="VARCHAR(50)" remarks="Отчество клиента, если есть">
+            </column>
+
+            <column name="phone_number" type="VARCHAR(30)" remarks="Номер телефона клиента">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="passport" type="VARCHAR(15)" remarks="Данные паспорта клиента">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="client_salary" type="INTEGER" remarks="Зарплата клиента по его мнению">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="birth_date" type="TIMESTAMP" remarks="Пусть тут будет дата рождения, ибо хранить в БД возраст числом как-то странно
+и не очень грамотно с точки обновления данных">
+                <constraints nullable="false"/>
+            </column>
+
+
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

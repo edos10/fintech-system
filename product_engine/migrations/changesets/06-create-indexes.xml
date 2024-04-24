@@ -1,0 +1,39 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+    <changeSet author="e.ryabov" id="create-index-client-datetime">
+        <createIndex
+            indexName="idx_datetime_activation"
+            schemaName="public"
+            tableName="contracts">
+            <column name="datetime_activation"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="e.ryabov" id="create-index-payment-contract-id">
+        <createIndex
+            indexName="idx_contract_payments"
+            schemaName="public"
+            tableName="payments">
+            <column name="id_contract"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="e.ryabov" id="create-index-contracts-client-id">
+        <createIndex
+            indexName="idx_contracts_for_client"
+            schemaName="public"
+            tableName="contracts">
+            <column name="id_client"/>
+        </createIndex>
+    </changeSet>
+
+
+</databaseChangeLog>

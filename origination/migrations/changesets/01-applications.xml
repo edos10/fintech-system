@@ -1,0 +1,75 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+    <changeSet author="e.ryabov" id="create-application-table">
+        <createTable tableName="applications" remarks="Храним все заявки в applications">
+            <column name="id" type="SERIAL" remarks="просто id заявки">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="applications_pkey"/>
+            </column>
+
+            <column name="agreement_id" type="INTEGER" remarks="ID кредитного договора, если он заключен по заявке">
+            </column>
+
+            <column name="status" type="VARCHAR(15)" remarks="Статус заявки">
+            </column>
+
+            <column name="first_name" type="VARCHAR(50)" remarks="Фамилия клиента">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="second_name" type="VARCHAR(50)" remarks="Имя клиента">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="third_name" type="VARCHAR(50)" remarks="Отчество клиента">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="birthday" type="VARCHAR(10)" remarks="Дата рождения клиента">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="passport_number" type="VARCHAR(50)" remarks="Данные паспорта клиента">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="phone" type="VARCHAR(50)" remarks="Номер телефона клиента">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="email" type="VARCHAR(50)" remarks="Электронная почта клиента">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="product_name" type="VARCHAR(50)" remarks="Название продукта">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="salary" type="INTEGER" remarks="Зарплата клиента">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="term" type="INTEGER" remarks="Срок кредита">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="interest" type="INTEGER" remarks="Запрошенная процентная ставка">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="disbursment_amount" type="INTEGER" remarks="Запрошенная сумма кредита">
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+    </changeSet>
+
+
+</databaseChangeLog>

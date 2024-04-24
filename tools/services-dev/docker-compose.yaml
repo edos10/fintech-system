@@ -1,0 +1,48 @@
+version: "3.5"
+
+services:
+  product_engine:
+    container_name: "product_engine"
+    restart: unless-stopped
+    build:
+      context: ./../..
+      dockerfile: ./product_engine/src/Dockerfile
+    ports:
+      - "5001:5001"
+    networks:
+      - fintech-network
+  origination:
+    container_name: "origination"
+    restart: unless-stopped
+    build:
+      context: ./../..
+      dockerfile: ./origination/src/Dockerfile
+    ports:
+      - "5002:5002"
+    networks:
+      - fintech-network
+  gateway:
+    container_name: "gateway"
+    restart: unless-stopped
+    build:
+      context: ./../..
+      dockerfile: ./gateway/src/Dockerfile
+    ports:
+      - "5000:5000"
+    networks:
+      - fintech-network
+  scoring:
+    container_name: "scoring"
+    restart: unless-stopped
+    build:
+      context: ./../..
+      dockerfile: ./scoring/src/Dockerfile
+    ports:
+      - "5003:5003"
+    networks:
+      - fintech-network
+
+
+networks:
+  fintech-network:
+    name: "fintech-network"

@@ -1,0 +1,52 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+    <changeSet author="e.ryabov" id="create-graphic-table">
+        <createTable tableName="payments" remarks="Информация о платежах хранится здесь, точнее графики платежей">
+
+            <column name="id" type="SERIAL" remarks="Просто id платежа уникальный">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="payment_pkey"/>
+            </column>
+
+            <column name="id_contract" type="INTEGER" remarks="Идентификатор договора">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="plan_datetime" type="TIMESTAMP" remarks="Планируемая дата выплаты">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="start_period" type="TIMESTAMP" remarks="Начало оплачиваемого периода">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="end_period" type="TIMESTAMP" remarks="Конец оплачиваемого периода">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="payment_for_base" type="INTEGER" remarks="Платеж основной части долга">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="payment_for_percents" type="INTEGER" remarks="Платеж процентов от долга">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="number_payment" type="INTEGER" remarks="Номер платежа">
+            </column>
+
+            <column name="payment_status" type="VARCHAR(20)" remarks="Статус платежа">
+            </column>
+
+        </createTable>
+    </changeSet>
+
+
+</databaseChangeLog>

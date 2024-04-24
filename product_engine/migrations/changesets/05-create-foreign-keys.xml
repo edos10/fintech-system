@@ -1,0 +1,20 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
+
+    <changeSet author="e.ryabov" id="create-foreign-keys-for-contract">
+        <addForeignKeyConstraint baseColumnNames="name_product" baseTableName="contracts" constraintName="name_product_fk" referencedColumnNames="id" referencedTableName="products"/>
+        <addForeignKeyConstraint baseColumnNames="id_client" baseTableName="contracts" constraintName="client_id_fk" referencedColumnNames="id" referencedTableName="clients"/>
+    </changeSet>
+
+     <changeSet author="e.ryabov" id="create-foreign-keys-for-payment">
+        <addForeignKeyConstraint baseColumnNames="id_contract" baseTableName="payments" constraintName="contract_id_fk" referencedColumnNames="id" referencedTableName="contracts"/>
+    </changeSet>
+
+</databaseChangeLog>
