@@ -8,12 +8,13 @@ async def print_msg(msg):
     print(f"New msg from topic:\n\n{msg}\n")
 
 
-async def receive_consumer_message(wrap_func, topic: str):
+async def receive_consumer_message(wrap_func, topic: str, group_id: str):
     consumer = AIOKafkaConsumer(
         topic,
         client_id='all',
         bootstrap_servers=KAFKA_INSTANCE,
         enable_auto_commit=False,
+        group_id=group_id
     )
 
     await consumer.start()
@@ -33,3 +34,20 @@ async def send_producer_kafka(producer: AIOKafkaProducer, data_for_kafka: dict, 
         await asyncio.wait_for(producer.send(topic, json.dumps(data_for_kafka).encode("ascii")), timeout=3)
     finally:
         await producer.stop()
+
+async def receive_consumer_message_to_origination():
+    loop = asyncio.get_event_loop()
+    consumer = AIOKafkaConsumer(
+        "new-agreements",
+        loop=loop,
+        client_id='all',
+        bootstrap_servers=KAFKA_INSTANCE,
+        enable_auto_commit=False,
+    )
+
+    await consumer.start()
+    try:
+        async for msg in consumer:
+            print(f"New msg from topic:\n\n{msg}\n")
+    finally:
+        await consumer.stop()

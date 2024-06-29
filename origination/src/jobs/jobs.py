@@ -59,3 +59,7 @@ async def accepted_applications_to_pe():
             res = httpx.post(os.getenv("URL_SEND_APPLICATION"), json=json.dumps(appl))
             if res.status_code != 201:
                 print(f"Unsuccess attempt for creating agreeement with id = {appl['id']} in product engine")
+
+
+async def ping_scoring():
+    httpx.get(os.getenv("URL_PING_SCORING"))

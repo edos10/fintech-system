@@ -12,6 +12,18 @@ from models.model_orm import *
 from sqlalchemy.ext.asyncio import AsyncSession
 import os
 import uvicorn
+import json
+import asyncio
+from contextlib import asynccontextmanager
+from common.kafka import receive_consumer_message
+from kafka_cons import read_messages_from_scoring
+from common.config import SCORING_RESPONSE
+
+
+@asynccontextmanager
+async def lifespan_wrapper(app):
+    asyncio.create_task(receive_consumer_message(read_messages_from_scoring, SCORING_RESPONSE, "product_engine"))
+    yield
 
 
 app = FastAPI()
@@ -109,7 +121,7 @@ async def add_agreement(request: CreditRequest, session: AsyncSession = Depends(
 
     data_for_kafka = {
         "agreement_id": agr_id,
-        "client_id": client_id, 
+        "client_id": client_id,
         "disbursment_amount": amount,
     }
 
@@ -118,16 +130,20 @@ async def add_agreement(request: CreditRequest, session: AsyncSession = Depends(
     return JSONResponse(status_code=201, content=output)
 
 @app.post("/get_all_agreements")
-async def add_agreement(request: Request, client_id: int, session: AsyncSession = Depends(get_session)):
+async def get_all_agreements(request: Request, session: AsyncSession = Depends(get_session)):
     """
     pass
     """
     input_data = await request.body()
+    print("TYPE INPUT PE", type(input_data), input_data)
+    input_data = json.loads(input_data.decode("utf-8").replace("'",'"'))
     repo = AgreementRepository(session)
     id_client = await repo.return_id_client(input_data)
     values = await repo.get_all_on_client_id(id_client)
 
-    return JSONResponse(status_code=201, content=values)
+    if values:
+        return JSONResponse(status_code=400, content=values)
+    return JSONResponse(status_code=200, content=values)
 
 
 if __name__ == "__main__":

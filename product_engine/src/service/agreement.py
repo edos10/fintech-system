@@ -1,7 +1,7 @@
 from db.dao import *
 from sqlalchemy import select
 from models.model_orm import *
-
+import datetime
 import random
 
 
@@ -102,21 +102,35 @@ class AgreementRepository(BaseRepository):
         return result.scalars().first()
 
     async def get_all_on_client_id(self, client_id: int):
-        result = await self.session.execute(select(Agreements).where(Agreements.id_client == client_id))
+        result = await self.session.execute(select(Agreements).where(Agreements.id_client == client_id).where(Agreements.contract_status != "CLOSE"))
         return result.scalars().all()
     
     async def return_id_client(self, client):
+        if type(client['birthday']) != datetime.datetime:
+            client['birthday'] = datetime.datetime.strptime(client['birthday'], "%d.%m.%Y")
         exists_res = await self.session.execute(select(Clients).where(
-            Clients.client_salary == client['client_salary']).where(Clients.surname == client['surname']).where(
-            client['name'] == Clients.name).where(Clients.patronymic == client['patronymic']).where(
-            client['phone_number'] == Clients.phone_number).where(Clients.passport == client['passport']).where(
-            client['birth_date'] == Clients.birth_date)
+            Clients.client_salary == client['salary']).where(Clients.surname == client['second_name']).where(
+            client['first_name'] == Clients.name).where(Clients.patronymic == client['third_name']).where(
+            client['phone'] == Clients.phone_number).where(Clients.passport == client['passport_number']).where(
+            client['birthday'] == Clients.birth_date)
         )
 
-        id_client = -1
+        id_client = await self.session.execute(select(Clients.id))
         client_exists = exists_res.scalars().all()
+
+        dict_for_new_client = {
+            "surname": client['first_name'],
+            "name": client['second_name'],
+            "patronymic": client['third_name'],
+            "phone_number": client['phone'],
+            "passport": client['passport_number'],
+            "client_salary": client['salary'],
+            "birth_date": client['birthday'],
+            "id": len(id_client.scalars().all()) + 1
+        }
+
         if not client_exists:
-            current_client = Clients(**client.dict())
+            current_client = Clients(**dict_for_new_client)
             self.session.add(current_client)
             await self.session.commit()
         else:
