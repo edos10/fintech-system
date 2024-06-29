@@ -14,12 +14,13 @@ async def processing_requests_from_origination(msg):
     print(f"NEW IN SCORING: {msg.value, type(msg.value)}")
     msg = json.loads(msg.value.decode('utf-8'))
     try:
-        response = await httpx.post(ALL_AGREEMENTS_PE_URL, json=msg)
-        msg["response"] = False
-        if response.status_code == httpx.codes.OK:
-            msg["response"] = True
-        producer = AIOKafkaProducer(bootstrap_servers=KAFKA_INSTANCE)
-        await send_producer_kafka(producer, msg, SCORING_RESPONSE)
+        async with httpx.AsyncClient() as client:
+            response = await client.post(ALL_AGREEMENTS_PE_URL, json=msg)
+            msg["response"] = False
+            if response.status_code == httpx.codes.OK:
+                msg["response"] = True
+            producer = AIOKafkaProducer(bootstrap_servers=KAFKA_INSTANCE)
+            await send_producer_kafka(producer, msg, SCORING_RESPONSE)
 
     except Exception as e:
         print("ERROR IN API PE", str(e))

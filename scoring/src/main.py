@@ -14,6 +14,7 @@ from kafka_read import print_msg
 
 @asynccontextmanager
 async def lifespan_wrapper(app):
+    print("AAAAAAA")
     scheduler.add_job(send_accepted_to_origination, 'interval',
                       seconds=int(os.getenv("SECONDS_FOR_JOB_TO_ORIGINATION")))
     asyncio.create_task(receive_consumer_message(processing_requests_from_origination, SCORING_REQUEST, "orig"))

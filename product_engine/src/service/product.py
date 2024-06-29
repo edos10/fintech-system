@@ -31,3 +31,9 @@ class ProductRepository(BaseRepository):
             raise ValueError("Product with this code don't exists")
         await self.session.delete(db_product)
         await self.session.commit()
+    
+    async def return_id_client(self, data):
+        pass
+    
+    async def get_all_on_client_id(self, obj_id) -> list:
+        pass

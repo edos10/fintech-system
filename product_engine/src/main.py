@@ -26,7 +26,7 @@ async def lifespan_wrapper(app):
     yield
 
 
-app = FastAPI()
+app = FastAPI(lifespan_wrapper=lifespan_wrapper)
 
 
 @app.get("/product")
